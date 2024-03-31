@@ -126,7 +126,7 @@ function startGame(room) {
         room.ball.y += room.ball.dy * 4;
 
         // check if ball hits player 1
-        if (room.ball.x < 110 && ball.x>90 && room.ball.y > room.players[0].y && room.ball.y < room.players[0].y + 100) {
+        if (room.ball.x < 110 && room.ball.x>90 && room.ball.y > room.players[0].y && room.ball.y < room.players[0].y + 100) {
             room.ball.dx = 0.80;
 
             // change ball direction
@@ -142,7 +142,7 @@ function startGame(room) {
         }
 
         // check if ball hits player 2
-        if (room.ball.x > 1290 && ball.x<1310 && room.ball.y > room.players[1].y && room.ball.y < room.players[1].y + 100) {
+        if (room.ball.x > 1290 && room.ball.x<1310 && room.ball.y > room.players[1].y && room.ball.y < room.players[1].y + 100) {
             room.ball.dx = -0.80;
 
             // change ball direction
