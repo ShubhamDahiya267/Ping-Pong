@@ -4,6 +4,8 @@ export default class Ball {
         this.y = y
         this.radius = radius
         this.color = color
+        this.dx= Math.random() < 0.5 ? 0.80 : -0.80,
+        this.dy= Math.random() < 0.5 ? 0.5 : -0.5
     }
 
     draw(ctx) {

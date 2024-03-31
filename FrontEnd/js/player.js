@@ -14,8 +14,8 @@ export default class Player {
 
         // draw score
         ctx.font = "20px Arial"
-        ctx.fillText(this.score, this.x < 400 ? 370 - ((this.score.toString().length - 1) * 12) : 420, 30)
+        ctx.fillText(this.score, this.x < 700 ? 620 - ((this.score.toString().length - 1) * 12) : 760, 70)
 
-        ctx.fillRect(this.x < 400 ? 790 : 0, 0, 10, 500)
+        ctx.fillRect(this.x < 700 ? 1390 : 0, 0, 10, 800)
     }
 }

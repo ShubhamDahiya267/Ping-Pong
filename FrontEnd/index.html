@@ -5,23 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pong</title>
     <link rel="stylesheet" href="ping.css">
-    <script src="./js/ping.js"></script>
 </head>
 <body>
     <div class="container">
         <h1 id="heading">
-            PING PONG (ONINE GAME)
+            PING PONG
         </h1>
         <div class="game">
             <canvas id="canvas" width="800" height="500"></canvas>
 
-            <p id="message"> </p>
-            <button id="startBtn">
-                START GAME
-            </button>
+            <div class="startGameBtns">
+                <p id="message"> </p>
+                <button id="playOnlineBtn" class="playBtns">
+                    Play Online
+                </button>
+                <button id="playofflineBtn" class="playBtns">
+                    Play Offline
+                </button>
+                <div id="onlineBtns">
+                    <button id="createRoomBtn" class="playBtns">
+                        Create New Room
+                    </button>
+                    <input type="text" id="roomIdInput" placeholder="Enter room Id..."/>
+                    <button id="roomIdSubmit" class="playBtns">Enter</button>
+                </div>
+                <div id="offlineBtns">
+                    <button id="playWithFrndBtn" class="playBtns">
+                        Play With Friend
+                    </button>
+                    <button id="playWithCompBtn" class="playBtns">
+                        Play with Computer
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
-    <script src="./js/ping.js" type="module"></script>
+    <script type="module" src="./js/ping.js"></script>
 </body>
 </html>

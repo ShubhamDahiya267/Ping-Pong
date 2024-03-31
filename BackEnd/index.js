@@ -38,8 +38,8 @@ io.on('connection', (socket) => {
                 socketID: socket.id,
                 playerNo: 2,
                 score: 0,
-                x: 690,
-                y: 200,
+                x: 1290,
+                y: 360,
             });
 
             // send message to room
@@ -60,13 +60,13 @@ io.on('connection', (socket) => {
                     playerNo: 1,
                     score: 0,
                     x: 90,
-                    y: 200,
+                    y: 360,
                 }],
                 ball: {
-                    x: 395,
-                    y: 245,
-                    dx: Math.random() < 0.5 ? 1 : -1,
-                    dy: Math.random() < 0.5 ? 2 : -2,
+                    x: 700,
+                    y: 400,
+                    dx: Math.random() < 0.5 ? 1 : -80,
+                    dy: Math.random() < 0.5 ? 0.75 : -0.75,
                 },
                 winner: 0,
             }
@@ -90,8 +90,8 @@ io.on('connection', (socket) => {
             else if (data.direction === 'down') {
                 room.players[data.playerNo - 1].y += 10;
 
-                if (room.players[data.playerNo - 1].y > 440) {
-                    room.players[data.playerNo - 1].y = 440;
+                if (room.players[data.playerNo - 1].y > 700) {
+                    room.players[data.playerNo - 1].y = 700;
                 }
             }
         }
@@ -123,18 +123,18 @@ io.on('connection', (socket) => {
 function startGame(room) {
     let interval = setInterval(() => {
         room.ball.x += room.ball.dx * 5;
-        room.ball.y += room.ball.dy * 5;
+        room.ball.y += room.ball.dy * 4;
 
         // check if ball hits player 1
-        if (room.ball.x < 110 && room.ball.y > room.players[0].y && room.ball.y < room.players[0].y + 60) {
-            room.ball.dx = 1;
+        if (room.ball.x < 110 && ball.x>90 && room.ball.y > room.players[0].y && room.ball.y < room.players[0].y + 100) {
+            room.ball.dx = 0.80;
 
             // change ball direction
-            if (room.ball.y < room.players[0].y + 30) {
-                room.ball.dy = -1;
+            if (room.ball.y < room.players[0].y + 50) {
+                room.ball.dy = -0.75;
             }
-            else if (room.ball.y > room.players[0].y + 30) {
-                room.ball.dy = 1;
+            else if (room.ball.y > room.players[0].y + 50) {
+                room.ball.dy = 0.75;
             }
             else {
                 room.ball.dy = 0;
@@ -142,15 +142,15 @@ function startGame(room) {
         }
 
         // check if ball hits player 2
-        if (room.ball.x > 690 && room.ball.y > room.players[1].y && room.ball.y < room.players[1].y + 60) {
-            room.ball.dx = -1;
+        if (room.ball.x > 1290 && ball.x<1310 && room.ball.y > room.players[1].y && room.ball.y < room.players[1].y + 100) {
+            room.ball.dx = -0.80;
 
             // change ball direction
             if (room.ball.y < room.players[1].y + 30) {
-                room.ball.dy = -1;
+                room.ball.dy = -0.75;
             }
             else if (room.ball.y > room.players[1].y + 30) {
-                room.ball.dy = 1;
+                room.ball.dy = 0.75;
             }
             else {
                 room.ball.dy = 0;
@@ -158,7 +158,7 @@ function startGame(room) {
         }
 
         // up and down walls
-        if (room.ball.y < 5 || room.ball.y > 490) {
+        if (room.ball.y < 5 || room.ball.y > 790) {
             room.ball.dy *= -1;
         }
 
@@ -166,18 +166,26 @@ function startGame(room) {
         // left and right walls
         if (room.ball.x < 5) {
             room.players[1].score += 1;
-            room.ball.x = 395;
-            room.ball.y = 245;
-            room.ball.dx = 1;
-            room.ball.dy = 0;
+            room.players[0].x=90;
+            room.players[0].y=360;
+            room.players[1].x=1290;
+            room.players[1].y=360;
+            room.ball.x = 700;
+            room.ball.y = 400;
+            room.ball.dx = 0.80;
+            room.ball.dy = Math.random() < 0.5 ? 0.75 : -0.75;
         }
 
         if (room.ball.x > 795) {
             room.players[0].score += 1;
-            room.ball.x = 395;
-            room.ball.y = 245;
-            room.ball.dx = -1;
-            room.ball.dy = 0;
+            room.players[0].x=90;
+            room.players[0].y=360;
+            room.players[1].x=1290;
+            room.players[1].y=360;
+            room.ball.x = 700;
+            room.ball.y = 400;
+            room.ball.dx = -0.80;
+            room.ball.dy = Math.random() < 0.5 ? 0.75 : -0.75;
         }
 
 
