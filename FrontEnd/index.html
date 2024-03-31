@@ -26,8 +26,14 @@
                     <button id="createRoomBtn" class="playBtns">
                         Create New Room
                     </button>
-                    <input type="text" id="roomIdInput" placeholder="Enter room Id..."/>
-                    <button id="roomIdSubmit" class="playBtns">Enter</button>
+                    <form id="joinForm" aria-label="Join room form" style="color:white">
+                        <label for="roomIdInput">Enter room ID:</label>
+                        <input type="text" id="roomIdInput" placeholder="Enter room Id..." aria-label="Enter room ID">
+                        <button id="roomIdSubmit" class="playBtns" aria-label="Submit room ID">Enter</button>
+                        <p id="joinFormHelp" class="helpText">
+                          Make sure to use a valid room ID. The room ID is case-sensitive. If you don't have a room ID, you can create one by clicking on the "Create Room" button.
+                        </p>
+                      </form>
                 </div>
                 <div id="offlineBtns">
                     <button id="playWithFrndBtn" class="playBtns">

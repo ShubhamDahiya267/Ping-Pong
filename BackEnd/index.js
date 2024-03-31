@@ -1,3 +1,6 @@
+const { 
+    v4: uuidv4,
+  } = require('uuid');
 const express = require('express');
 const app = express();
 const http = require('http');
@@ -20,18 +23,44 @@ let rooms = [];
 io.on('connection', (socket) => {
     console.log('a user connected');
 
-    socket.on("join", () => {
+    socket.on( "create", () =>{
+        room = {
+            id: uuidv4(),
+            players: [{
+                socketID: socket.id,
+                playerNo: 1,
+                score: 0,
+                x: 90,
+                y: 360,
+            }],
+            ball: {
+                x: 700,
+                y: 400,
+                dx: Math.random() < 0.5 ? 1 : -80,
+                dy: Math.random() < 0.5 ? 0.75 : -0.75,
+            },
+            winner: 0,
+        }
+        console.log('a user connected',room.id);
+        rooms.push(room);
+        socket.join(room.id);
+        socket.emit('playerNo', {
+            roomID: room.id,
+            playerNo: 1
+        });
+    });
+    socket.on("join", (roomId) => {
         console.log(rooms);
 
         // get room 
-        let room;
-        if (rooms.length > 0 && rooms[rooms.length - 1].players.length === 1) {
-            room = rooms[rooms.length - 1];
-        }
-
+        let room = rooms.find(room => room.id === roomId);
+        
         if (room) {
             socket.join(room.id);
-            socket.emit('playerNo', 2);
+            socket.emit('playerNo', {
+                roomID: room.id,
+                playerNo: 2
+            });
 
             // add player to room
             room.players.push({
@@ -53,26 +82,10 @@ io.on('connection', (socket) => {
             }, 3000);
         }
         else {
-            room = {
-                id: rooms.length + 1,
-                players: [{
-                    socketID: socket.id,
-                    playerNo: 1,
-                    score: 0,
-                    x: 90,
-                    y: 360,
-                }],
-                ball: {
-                    x: 700,
-                    y: 400,
-                    dx: Math.random() < 0.5 ? 1 : -80,
-                    dy: Math.random() < 0.5 ? 0.75 : -0.75,
-                },
-                winner: 0,
-            }
-            rooms.push(room);
-            socket.join(room.id);
-            socket.emit('playerNo', 1);
+            socket.emit('playerNo', {
+                roomID: roomId,
+                playerNo: 0
+            });
         }
     });
 
@@ -176,7 +189,7 @@ function startGame(room) {
             room.ball.dy = Math.random() < 0.5 ? 0.75 : -0.75;
         }
 
-        if (room.ball.x > 795) {
+        if (room.ball.x > 1395) {
             room.players[0].score += 1;
             room.players[0].x=90;
             room.players[0].y=360;

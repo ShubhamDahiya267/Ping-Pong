@@ -8,6 +8,7 @@ import Player from "./player.js";
 let playOnlineBtn = document.getElementById('playOnlineBtn');
 let playofflineBtn = document.getElementById('playofflineBtn');
 
+const joinForm = document.getElementById('joinForm');
 let createRoomBtn = document.getElementById('createRoomBtn');
 let onlineBtns = document.getElementById('onlineBtns');
 
@@ -17,6 +18,13 @@ let playWithCompBtn = document.getElementById('playWithCompBtn');
 
 playOnlineBtn.addEventListener('click', playOnline);
 createRoomBtn.addEventListener('click', createRoom);
+joinForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+    console.log(event);
+    const roomId = document.getElementById('roomIdInput').value;
+    // Call the joinRoom function with the room ID as an argument
+    joinRoom(roomId);
+  });
 
 playofflineBtn.addEventListener('click', playOffline);
 playWithFrndBtn.addEventListener('click', playWithFriend);
@@ -66,8 +74,18 @@ function createRoom() {
     onlineBtns.style.display = 'none';
 
     if (socket.connected) {
-        socket.emit('join');
-        message.innerText = "Waiting for other player..."
+        socket.emit('create');
+    }
+    else {
+        message.innerText = "Refresh the page and try again..."
+    }
+}
+
+function joinRoom(roomId) {
+    console.log(roomId);
+    onlineBtns.style.display = 'none';
+    if (socket.connected) {
+        socket.emit('join',roomId);
     }
     else {
         message.innerText = "Refresh the page and try again..."
@@ -80,9 +98,16 @@ function connectToSocket() {
         socket = io("https://ping-pong-zbwg.onrender.com", {
             transports: ['websocket']
         });
+        
 
-        socket.on("playerNo", (newPlayerNo) => {
-            playerNo = newPlayerNo;
+        socket.on("playerNo", (data) => {
+            playerNo = data.playerNo;
+            if(playerNo == 1){
+                message.innerText = `Waiting for other player...(Your room ID:${data.roomID})`
+            }
+            else if(playerNo == 0){
+                message.innerText = `No Room exist for this Room Id-${data.roomID}. Please refresh and try again or create a new one.`
+            }
         });
         
         socket.on("startingGame", () => {
